@@ -1,0 +1,8 @@
+src/X.npy
+src/X.npy
+
+data/files/*
+!data/files/.gitkeep
+experiments
+.venv
+.idea
