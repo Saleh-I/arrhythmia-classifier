@@ -49,34 +49,26 @@ class LSTMModel(nn.Module):
     def __init__(self, input_size, hidden_size=256, output_size=4, num_layers=1):
         super(LSTMModel, self).__init__()
 
-        # Define the LSTM layer
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
 
-        # Define additional dense layers with ReLU activations
-        self.fc1 = nn.Linear(hidden_size, hidden_size)  # First dense layer
+
+        self.fc1 = nn.Linear(hidden_size, hidden_size)
         self.relu1 = nn.ReLU()
 
-        self.fc2 = nn.Linear(hidden_size, hidden_size)  # Second dense layer
+        self.fc2 = nn.Linear(hidden_size, hidden_size)
         self.relu2 = nn.ReLU()
 
-        # Define the final output layer
+
         self.fc3 = nn.Linear(hidden_size, output_size)
         # self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
-        # LSTM returns two outputs: (output, (h_n, c_n))
+
         lstm_out, _ = self.lstm(x)
-
-        # We want the last output of LSTM for each sequence
         last_output = lstm_out[:, -1, :]  # Get the last time step output
-
-        # Pass through the first dense layer and ReLU activation
         x = self.relu1(self.fc1(last_output))
-
-        # Pass through the second dense layer and ReLU activation
         x = self.relu2(self.fc2(x))
 
-        # Pass it through the final fully connected layer
         out = self.fc3(x)
         # out = self.sigmoid(self.fc3(x))
 

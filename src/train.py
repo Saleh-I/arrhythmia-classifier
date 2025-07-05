@@ -17,7 +17,7 @@ from sklearn.preprocessing import MinMaxScaler
 import joblib
 import pickle
 import numpy as np
-from utils import pre_process, calculate_class_weights
+from utils import pre_process #, calculate_class_weights
 from sklearn.model_selection import train_test_split
 
 def parse_args():
@@ -80,18 +80,6 @@ def train(model, optimizer, batch_size, train_loader, val_loader,
             outputs, _ = model(inputs)
 
             loss = criterion(outputs, labels)
-            # weighted loss function: https://chatgpt.com/c/6861800b-fcd8-8004-8d93-1d9ad01bbd29
-
-            # loss = custom_weighted_bce(outputs, labels)
-
-
-            # Calculate accuracy
-            #accuracy = accuracy_score(y_true, y_pred)
-            # preds = (outputs >= 0.5).float()  # Apply 0.5 threshold for binary classification
-            # correct_train += (preds == labels).sum().item()
-            # total_train += labels.size(0)
-
-
             # Backward pass and optimization
             optimizer.zero_grad()
             loss.backward()
@@ -116,14 +104,6 @@ def train(model, optimizer, batch_size, train_loader, val_loader,
                 val_inputs, val_labels = val_inputs.to(device), val_labels.to(device)
                 val_outputs, _ = model(val_inputs)
                 val_loss = criterion(val_outputs, val_labels)
-
-                # val_loss = multiclass_precision_focused_loss(val_outputs, val_labels)
-                # val_loss = custom_weighted_bce(val_outputs, val_labels)
-
-                # Calculate accuracy
-                # val_preds = (val_outputs >= 0.5).float()
-                # correct_val += (val_preds == val_labels).sum().item()
-                # total_val += val_labels.size(0)
 
                 total_val_loss += val_loss.item()
 
@@ -277,9 +257,9 @@ def main():
 
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
 
-    class_weights = calculate_class_weights(y_train)
-    print("Class Weights:", class_weights) #[0.00127307 0.09508928 0.00979841 0.89383923]
-    class_weights = torch.tensor(class_weights, dtype=torch.float32).to(device)
+    # class_weights = calculate_class_weights(y_train)
+    # print("Class Weights:", class_weights) #[0.00127307 0.09508928 0.00979841 0.89383923]
+    # class_weights = torch.tensor(class_weights, dtype=torch.float32).to(device)
 
     train_generator = TimeSeriesDataset(X_train, y_train)
     val_generator = TimeSeriesDataset(X_val, y_val)
@@ -300,7 +280,7 @@ def main():
     # model = CNNModel(num_input, sequence_length, output_size).to(device)
     model = LSTMModel(num_input).to(device)
 
-    criterion = nn.CrossEntropyLoss(weight=class_weights)
+    criterion = nn.CrossEntropyLoss() #criterion = nn.CrossEntropyLoss(weight=class_weights)
 
     optimizer = Adam(model.parameters(), lr=learning_rate)
 

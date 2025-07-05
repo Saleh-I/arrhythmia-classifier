@@ -67,26 +67,26 @@ def pre_process(data_dir):
 
 
 
-def calculate_class_weights(y):
-
-    label_counts = Counter(y)
-
-    # Map each label to the corresponding class
-    label_to_class = {
-        'N': 0, 'R': 0, 'L': 0, 'n': 0, 'B': 0,  # Normal
-        'A': 1, 'S': 1, 'j': 1,  # SVEB
-        'V': 2,  # VEB
-        '+': 3, 'F': 3, 'Q': 3  # Other
-    }
-
-    # Convert to class indices
-    class_counts = np.zeros(4)
-    for label in y:
-        class_idx = label_to_class.get(label, 3)
-        class_counts[class_idx] += 1
-
-    # Compute class weights: inverse frequency or log inverse
-    class_weights = 1.0 / (class_counts + 1e-5)  # add epsilon to avoid divide-by-zero
-    class_weights = class_weights / class_weights.sum()  # normalize if needed
-
-    return class_weights
+# def calculate_class_weights(y):
+#
+#     label_counts = Counter(y)
+#
+#     # Map each label to the corresponding class
+#     label_to_class = {
+#         'N': 0, 'R': 0, 'L': 0, 'n': 0, 'B': 0,  # Normal
+#         'A': 1, 'S': 1, 'j': 1,  # SVEB
+#         'V': 2,  # VEB
+#         '+': 3, 'F': 3, 'Q': 3  # Other
+#     }
+#
+#     # Convert to class indices
+#     class_counts = np.zeros(4)
+#     for label in y:
+#         class_idx = label_to_class.get(label, 3)
+#         class_counts[class_idx] += 1
+#
+#     # Compute class weights
+#     class_weights = 1.0 / (class_counts + 1e-5)
+#     class_weights = class_weights / class_weights.sum()
+#
+#     return class_weights

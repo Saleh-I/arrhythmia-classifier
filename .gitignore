@@ -8,3 +8,4 @@ experiments
 .idea
 
 src/test.py
+notebooks/check_data.ipynb
