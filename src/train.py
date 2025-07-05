@@ -267,12 +267,12 @@ def main():
     # Read the dataset.
     dataset_dir = config_data['DIRECTORIES']['DATASET_DIR']
 
-    # X, y = pre_process(dataset_dir)
+    X, y = pre_process(dataset_dir)
     # np.save('X.npy', X)
     # np.save('y.npy', y)
     # preprocessing takes too much time, so I saved X and y locally, and reload them.
-    X = np.load('X.npy')
-    y = np.load('y.npy')
+    # X = np.load('X.npy')
+    # y = np.load('y.npy')
 
 
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
