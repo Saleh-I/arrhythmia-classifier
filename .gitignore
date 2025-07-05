@@ -1,5 +1,5 @@
 src/X.npy
-src/X.npy
+src/y.npy
 
 data/files/*
 !data/files/.gitkeep
