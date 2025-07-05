@@ -6,3 +6,5 @@ data/files/*
 experiments
 .venv
 .idea
+
+src/test.py
