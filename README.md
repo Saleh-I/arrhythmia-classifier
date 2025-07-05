@@ -54,7 +54,7 @@ Heartbeat annotations were grouped into 4 categories:
 
 ### Classification Report
 ```
-     precision    recall  f1-score   support
+               precision    recall  f1-score   support
 
       Normal       1.00      1.00      1.00     30667
         SVEB       0.94      0.85      0.89       405
